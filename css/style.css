@@ -393,6 +393,23 @@ body {
   line-height: 1.5;
 }
 
+/* Footer */
+.site-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: rgba(44, 62, 45, 0.7);
+}
+
+.site-footer .validators {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
 /* Utilidades */
 .hidden { display: none !important; }
 

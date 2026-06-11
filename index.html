@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Celebración de 50 Años</title>
+  <meta name="author" content="Haxiel Ruiz">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 <!-- Pantalla interactiva del sobre -->
 <div id="envelope-screen" class="envelope-screen">
@@ -77,9 +78,40 @@
       <p>Hemos recibido tu respuesta. Esperamos verte pronto para celebrar este día tan especial.</p>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <p>Autor: Haziel Ruiz 2026</p>
+    <div class="validators">
+      <a href="http://validator.w3.org/check?uri=referer" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.w3.org/Icons/valid-html401" alt="Valid HTML" height="31" width="88">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank" rel="noopener noreferrer">
+        <img style="border:0;width:88px;height:31px" src="https://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!">
+      </a>
+    </div>
+  </footer>
 </div>
 
 <script>
+  // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  document.onkeydown = function(e) {
+    if(event.keyCode === 123) {
+      return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) {
+      return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) {
+      return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) {
+      return false;
+    }
+    if(e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) {
+      return false;
+    }
+  }
+
   // Interactividad: Animación de apertura del sobre
   const envelope = document.getElementById('envelope');
   const envelopeScreen = document.getElementById('envelope-screen');
