@@ -1,0 +1,411 @@
+/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio, canvas, iframe, img, svg, video {
+  vertical-align: middle;
+}
+
+fieldset { border: 0; margin: 0; padding: 0; }
+textarea { resize: vertical; }
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+:root {
+  --bg-color: #d1d8cd; /* Verde salvia tenue */
+  --card-bg: #f4f1ea;  /* Color papel pergamino/crema */
+  --text-primary: #2c3e2d; /* Verde oscuro elegante */
+  --accent-color: #cda434; /* Dorado/ocre */
+  --font-main: 'Cormorant Garamond', serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* --- Animación Sobre --- */
+.envelope-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 1s ease-in-out;
+}
+
+.envelope-screen.opened {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envelope {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background: #e1d8c1;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.envelope:hover {
+  transform: translateY(-5px);
+}
+
+.envelope::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px);
+  pointer-events: none;
+}
+
+.envelope .flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-top: 110px solid #d4cbb3;
+  transform-origin: top;
+  transition: transform 0.8s ease-in-out;
+  z-index: 3;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1; /* Move behind preview after open */
+}
+
+.envelope .pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid #ecdca8;
+  border-right: 150px solid #ecdca8;
+  border-bottom: 120px solid #e1d8c1;
+  z-index: 2;
+  filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.05));
+}
+
+.envelope .wax-seal {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: #8b0000;
+  border-radius: 50%;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5), 0 2px 5px rgba(0,0,0,0.3);
+  transition: opacity 0.4s ease;
+}
+
+.envelope.open .wax-seal {
+  opacity: 0;
+}
+
+.envelope .letter-preview {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background: #fff;
+  z-index: 1;
+  transition: transform 0.8s ease-in-out 0.4s;
+}
+
+.envelope.open .letter-preview {
+  transform: translateY(-80px);
+  z-index: 2;
+}
+
+.click-to-open {
+  margin-top: 40px;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* --- Contenido Principal --- */
+.invitation-wrapper {
+  width: 100%;
+  max-width: 550px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+  z-index: 10;
+}
+
+.fade-in {
+  animation: fadeInContent 1s forwards;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo de la Tarjeta */
+.card {
+  background-color: var(--card-bg);
+  padding: 40px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--accent-color);
+  padding: 30px 20px;
+  background: rgba(244, 241, 234, 0.85);
+}
+
+/* Acentos visuales (Imágenes) */
+.floral-accent {
+  width: 100px;
+  height: auto;
+  margin: 0 auto;
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+
+.top-accent { margin-bottom: 20px; }
+.bottom-accent { margin-top: 20px; width: 80px; border-radius: 50%; object-fit: cover;}
+
+.intro {
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 4rem;
+  margin: 10px 0;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: var(--accent-color);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.name {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.details {
+  position: relative;
+  padding: 20px 0;
+}
+
+.details::before, .details::after {
+  content: '';
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height: 1px;
+  background-color: var(--accent-color);
+  opacity: 0.5;
+}
+.details::before { top: 0; }
+.details::after { bottom: 0; }
+
+.details p {
+  font-size: 1.3rem;
+  margin: 8px 0;
+  letter-spacing: 1px;
+}
+
+/* Botones interactivos */
+.action-button {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--accent-color);
+  padding: 15px 30px;
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: var(--accent-color);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.action-button:hover {
+  color: #fff;
+  border-color: transparent;
+}
+.action-button:hover::before {
+  transform: scaleX(1);
+}
+
+.submit-btn {
+  background-color: var(--text-primary);
+  color: var(--card-bg);
+  border-color: var(--text-primary);
+}
+.submit-btn::before { background-color: var(--accent-color); }
+
+/* Estilo del Formulario y Agradecimiento */
+.form-container {
+  background-color: var(--card-bg);
+  padding: 35px 30px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent-color);
+  border-radius: 4px;
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.input-group input, .input-group select {
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: transparent;
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus, .input-group select:focus {
+  outline: none;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.thank-you-message {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-primary);
+}
+
+.thank-you-message h3 {
+  font-size: 2rem;
+  color: var(--accent-color);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.thank-you-message p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* Utilidades */
+.hidden { display: none !important; }
+
+@media only screen and (max-width: 400px) {
+  .title { font-size: 3rem; }
+  .name { font-size: 1.8rem; }
+  .envelope { width: 260px; }
+  .envelope .flap {
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+  }
+  .envelope .pocket {
+    border-left: 130px solid #ecdca8;
+    border-right: 130px solid #ecdca8;
+  }
+}

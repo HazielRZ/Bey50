@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebración de 50 Años</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Pantalla interactiva del sobre -->
+<div id="envelope-screen" class="envelope-screen">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="pocket"></div>
+    <div class="wax-seal">50</div>
+    <div class="letter-preview"></div>
+  </div>
+  <p class="click-to-open">Toca el sobre para abrir</p>
+</div>
+
+<!-- Contenido principal de la invitación -->
+<div class="invitation-wrapper hidden" id="invitation">
+  <div class="card">
+    <div class="card-content">
+      <!-- Acentos florales o de diseño usando la imagen png -->
+      <img src="img/10851991.png" alt="Detalle decorativo" class="floral-accent top-accent" onerror="this.style.display='none'">
+
+      <p class="intro">Tenemos el honor de invitarte a celebrar los</p>
+      <h1 class="title">50 Años</h1>
+      <h2 class="name">Beyruth Deyanira</h2>
+
+      <div class="details">
+        <p>Sábado, 6 de Septiembre</p>
+        <p>a las seis de la tarde</p>
+        <p><strong>Quinta de Celebraciones</strong></p>
+      </div>
+
+      <button id="rsvp-btn" class="action-button">Confirmar Asistencia</button>
+    </div>
+  </div>
+
+  <div id="rsvp-section" class="form-container hidden">
+    <form id="rsvp-form" name="rsvp-50-anos" method="POST" data-netlify="true" class="custom-form">
+      <h3 style="text-align: center; font-size: 1.5rem; margin-top: 0; color: var(--accent-color);">Confirma tu presencia</h3>
+
+      <div class="input-group">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" name="nombre_invitado" required placeholder="Ej. Salvador Santamaría">
+      </div>
+
+      <div class="input-group">
+        <label for="attendance">¿Asistirá al evento?</label>
+        <select id="attendance" name="confirmacion_asistencia" required>
+          <option value="si">Con gusto asistiré</option>
+          <option value="no">Lamentablemente no podré asistir</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="guests">Número de acompañantes (incluyéndote)</label>
+        <input type="number" id="guests" name="cantidad_personas" min="1" max="10" required placeholder="Ej. 2">
+      </div>
+
+      <button type="submit" class="action-button submit-btn">Enviar Confirmación</button>
+    </form>
+
+    <!-- Mensaje de agradecimiento (oculto inicialmente) -->
+    <div id="thank-you-message" class="thank-you-message hidden">
+      <h3>¡Gracias por confirmar!</h3>
+      <p>Hemos recibido tu respuesta. Esperamos verte pronto para celebrar este día tan especial.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Interactividad: Animación de apertura del sobre
+  const envelope = document.getElementById('envelope');
+  const envelopeScreen = document.getElementById('envelope-screen');
+  const invitation = document.getElementById('invitation');
+
+  envelope.addEventListener('click', function() {
+    envelope.classList.add('open');
+
+    // Esperar a que se abra la solapa para mostrar la invitación real
+    setTimeout(() => {
+      envelopeScreen.classList.add('opened');
+      invitation.classList.remove('hidden');
+      invitation.classList.add('fade-in');
+
+      // Ocultar el contenedor del sobre después de desvanecerlo
+      setTimeout(() => {
+        envelopeScreen.style.display = 'none';
+      }, 1000);
+    }, 800);
+  });
+
+  // Interactividad: Mostrar el formulario de manera fluida y elegante
+  document.getElementById('rsvp-btn').addEventListener('click', function() {
+    const formSection = document.getElementById('rsvp-section');
+    formSection.classList.remove('hidden');
+    formSection.classList.add('fade-in');
+
+    // Dar un breve tiempo para aplicar la animación antes de hacer scroll
+    setTimeout(() => {
+      formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  });
+
+  // Manejo del envío del formulario para mostrar el mensaje de agradecimiento
+  const rsvpForm = document.getElementById('rsvp-form');
+  const thankYouMessage = document.getElementById('thank-you-message');
+
+  rsvpForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // Evitar recargar la página
+
+    // Aquí iría la lógica para enviar a Netlify o tu backend real.
+    // Usamos fetch nativo si está en Netlify o simplemente simulamos si estamos en dev:
+    const formData = new FormData(rsvpForm);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+    .then(() => {
+        // Ocultar formulario
+        rsvpForm.style.display = 'none';
+
+        // Mostrar mensaje de agradecimiento
+        thankYouMessage.classList.remove('hidden');
+        thankYouMessage.classList.add('fade-in');
+    })
+    .catch((error) => {
+        // En caso de que no estés en Netlify o haya error, aún mostramos la animación localmente.
+        console.error(error);
+        rsvpForm.style.display = 'none';
+        thankYouMessage.classList.remove('hidden');
+        thankYouMessage.classList.add('fade-in');
+    });
+  });
+</script>
+</body>
+</html>
